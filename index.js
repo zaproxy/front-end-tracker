@@ -2,18 +2,19 @@
 
 global.mailbox = require('pubsub-js');
 
-const EVENTS = require('./events.js').EVENTS;
-const EventListenerHook = require('./hooks/EventListenerHook.js').EventListenerHook;
-const StorageHook = require('./hooks/StorageHook.js').StorageHook;
+const {EVENTS} = require('./events.js');
+const {EventListenerHook} = require('./hooks/event-listener-hook.js');
+const {StorageHook} = require('./hooks/storage-hook');
 
 const eventListenerOptions = {
-  'enabled': true,
-  'types': EVENTS,
-  'callback': publishToMailbox
+  enabled: true,
+  types: EVENTS,
+  callback: publishToMailbox
 };
+
 const storageOptions = {
-  'enabled': true,
-  'callback': publishToMailbox
+  enabled: true,
+  callback: publishToMailbox
 };
 
 function publishToMailbox(err, data) {
@@ -21,22 +22,22 @@ function publishToMailbox(err, data) {
     console.log(err);
   } else {
     const time = new Date().getTime();
-    const topic = data.topic;
-    data['timestamp'] = time;
+    const {topic} = data;
+    data.timestamp = time;
 
-    mailbox.publish(topic, data);
+    global.mailbox.publish(topic, data);
   }
 }
 
 const hooksAndOptions = [{
-  'hook': EventListenerHook,
-  'options': eventListenerOptions
+  Hook: EventListenerHook,
+  options: eventListenerOptions
 }, {
-  'hook': StorageHook,
-  'options': storageOptions
+  Hook: StorageHook,
+  options: storageOptions
 }];
 
 hooksAndOptions.forEach(x => {
-  const hook = new x['hook']();
-  hook.setOptions(x['options']);
+  const hook = new x.Hook();
+  hook.setOptions(x.options);
 });

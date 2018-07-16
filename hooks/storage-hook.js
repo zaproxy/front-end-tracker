@@ -5,8 +5,8 @@ const oldGetItem = Storage.prototype.getItem;
 const oldRemoveItem = Storage.prototype.removeItem;
 const oldSetItem = Storage.prototype.setItem;
 
-Storage.prototype.getItem = function() {
-  const keyName = arguments[0];
+Storage.prototype.getItem = function (...args) {
+  const keyName = args[0];
   const keyValue = oldGetItem.call(this, keyName);
   for (const hook of hooks) {
     hook.onStorage({
@@ -18,8 +18,8 @@ Storage.prototype.getItem = function() {
   return keyValue;
 };
 
-Storage.prototype.removeItem = function() {
-  const keyName = arguments[0];
+Storage.prototype.removeItem = function (...args) {
+  const keyName = args[0];
   const keyValue = oldGetItem.call(this, keyName);
   const returnValue = oldRemoveItem.call(this, keyName);
   for (const hook of hooks) {
@@ -32,9 +32,9 @@ Storage.prototype.removeItem = function() {
   return returnValue;
 };
 
-Storage.prototype.setItem = function() {
-  const keyName = arguments[0];
-  const keyValue = arguments[1];
+Storage.prototype.setItem = function (...args) {
+  const keyName = args[0];
+  const keyValue = args[1];
   const returnValue = oldSetItem.call(this, keyName, keyValue);
   for (const hook of hooks) {
     hook.onStorage({
@@ -52,16 +52,16 @@ class StorageHook {
   }
 
   setOptions(opts) {
-    if ("enabled" in opts) {
-      this.enabled = !!opts.enabled;
+    if ('enabled' in opts) {
+      this.enabled = Boolean(opts.enabled);
     }
-    this.onStorage = function(obj) {
-      const data = { ...obj, topic: 'storage' };
+    this.onStorage = function (obj) {
+      const data = {...obj, topic: 'storage'};
       opts.callback(null, data);
     };
   }
 }
 
 module.exports = {
-  StorageHook: StorageHook
+  StorageHook
 };
