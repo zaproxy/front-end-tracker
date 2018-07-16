@@ -1,5 +1,7 @@
 # Front-End Tracker
 
+![](https://api.travis-ci.com/Pamplemousse/front-end-tracker.svg?branch=master)
+
 Keep track of events that can happen in a webpage.
 
 
