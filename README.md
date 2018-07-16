@@ -1,6 +1,6 @@
 # Front-End Tracker
 
-Tracking events that can happen in a webpage.
+Keep track of events that can happen in a webpage.
 
 
 ## Usage
@@ -10,6 +10,7 @@ When imported into a webpage, it exposes a `mailbox` variable in the global scop
   * storage
 
 You can then react to this topics by subscribing to the `mailbox`.
+
 For example, one can log DOM events informations using the following code:
 
 ```javascript
@@ -31,7 +32,7 @@ Requirements:
   * install the `script console` from the add-on marketplace
   * install the `community scripts` from the add-on marketplace
 
-Replace `/tmp/test.js` by the **absolute path** of your `bundle.js`.
+Replace `/tmp/test.js` by the **absolute path** of the generated `bundle.js` from this project.
 
 
 ## Build the app (standalone)

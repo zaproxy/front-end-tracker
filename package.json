@@ -2,6 +2,7 @@
   "name": "front-end-tracker",
   "version": "1.0.0",
   "description": "Tracking events that can happen in a webpage.",
+  "author": "Xavier Maso <xav.maso@gmail.com> (https://github.com/pamplemousse)",
   "main": "index.js",
   "directories": {},
   "scripts": {
@@ -11,14 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mozilla-services/zap-modern.git"
+    "url": "git+https://github.com/zaproxy/front-end-tracker.git"
   },
-  "author": "",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/mozilla-services/zap-modern/issues"
+    "url": "https://github.com/zaproxy/front-end-tracker/issues"
   },
-  "homepage": "https://github.com/mozilla-services/zap-modern#readme",
+  "homepage": "https://github.com/zaproxy/front-end-tracker#readme",
   "devDependencies": {
     "browserify": "^16.2.2",
     "uglify-es": "^3.3.9",
