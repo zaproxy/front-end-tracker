@@ -6,7 +6,7 @@
   "main": "index.js",
   "directories": {},
   "scripts": {
-    "build": "browserify index.js hooks/*.js | uglifyjs --compress --mangle -o bundle.js",
+    "build": "browserify index.js hooks/*.js | uglifyjs --compress --mangle -o dist/front-end-tracker.js",
     "lint": "xo",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify index.js hooks/*.js -o bundle.js"
