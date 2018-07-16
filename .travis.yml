@@ -8,3 +8,19 @@ cache:
 
 script:
   - npm run lint
+  - npm run build
+
+before_deploy:
+  - npm config set @zaproxy:registry https://registry.npmjs.org/
+  # `dist/front-end-track.js` appears in the `.gitignore`, so its won't be
+  # published, unless a `.npmignore` is present.
+  # c.f. https://docs.travis-ci.com/user/deployment/npm/#note-on-gitignore
+  - touch .npmignore
+
+deploy:
+  provider: npm
+  email: "${NPM_EMAIL}"
+  api_key: "${NPM_TOKEN}"
+  skip_cleanup: true
+  on:
+    tags: true

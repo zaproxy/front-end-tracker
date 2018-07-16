@@ -34,6 +34,9 @@
   "dependencies": {
     "pubsub-js": "^1.6.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "xo": {
     "space": true,
     "globals": [
