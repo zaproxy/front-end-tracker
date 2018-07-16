@@ -1,0 +1,30 @@
+{
+  "name": "front-end-tracker",
+  "version": "1.0.0",
+  "description": "Tracking events that can happen in a webpage.",
+  "main": "index.js",
+  "directories": {},
+  "scripts": {
+    "build": "browserify index.js hooks/*.js | uglifyjs --compress --mangle -o bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify index.js hooks/*.js -o bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozilla-services/zap-modern.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/mozilla-services/zap-modern/issues"
+  },
+  "homepage": "https://github.com/mozilla-services/zap-modern#readme",
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "uglify-es": "^3.3.9",
+    "watchify": "^3.11.0"
+  },
+  "dependencies": {
+    "pubsub-js": "^1.6.0"
+  }
+}
