@@ -13,7 +13,7 @@ When imported into a webpage, it exposes a `mailbox` variable in the global scop
 
 You can then react to this topics by subscribing to the `mailbox`.
 
-For example, one can log DOM events informations using the following code:
+For example, one can log DOM events' information using the following code:
 
 ```javascript
 const topic = 'dom-events';
@@ -25,14 +25,14 @@ mailbox.subscribe(topic, function(_, data) {
 
 ## Use with ZAP
 
-#### inject in all responses
+#### Inject in all responses
 
-[inject.js](https://github.com/zaproxy/community-scripts/blob/master/httpsender/inject_js_in_html_page.js) is an HttpSender script (see more [here](https://github.com/zaproxy/community-scripts/tree/master/httpsender)) to inject any kind of Javascript content into webpages that interest us.
+[inject.js](https://github.com/zaproxy/community-scripts/blob/master/httpsender/inject_js_in_html_page.js) is an HTTP Sender script (see more [here](https://github.com/zaproxy/community-scripts/tree/master/httpsender)) to inject any kind of Javascript content into webpages that interest us.
 
 Requirements:
 
-  * install the `script console` from the add-on marketplace
-  * install the `community scripts` from the add-on marketplace
+  * Install the `Script Console` from the add-on marketplace.
+  * Install the `Community Scripts` from the add-on marketplace.
 
 Replace `/tmp/test.js` by the **absolute path** of the generated `bundle.js` from this project.
 
@@ -40,6 +40,7 @@ Replace `/tmp/test.js` by the **absolute path** of the generated `bundle.js` fro
 ## Build the app (standalone)
 
 ```
+npm install
 npm run build
 ```
 
@@ -52,6 +53,7 @@ Then `dist/front-end-tracker.js` contains the application to be imported into th
 ## Dev
 
 ```
+npm install
 npm run watch
 ```
 
@@ -60,5 +62,5 @@ npm run watch
 
 ## Resources
 
-  * [full list of DOM Events](https://developer.mozilla.org/en-US/docs/Web/Events)
+  * [Full list of DOM Events](https://developer.mozilla.org/en-US/docs/Web/Events)
   * [webcompat/tinker-tester-developer-spy](https://github.com/webcompat/tinker-tester-developer-spy): some hooks have been copy/pasted in the [hooks folder](https://github.com/zaproxy/front-end-tracker/tree/master/hooks).
