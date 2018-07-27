@@ -1,63 +1,16 @@
 'use strict';
 
-const hooks = [];
-const oldAEL = EventTarget.prototype.addEventListener;
-const oldREL = EventTarget.prototype.removeEventListener;
-const registrations = {};
-
-EventTarget.prototype.addEventListener = function (...args) {
-  const type = args[0];
-  const fn = args[1];
-  const options = args[2];
-  if (!fn) { // No handler, so this call will fizzle anyway
-    return undefined;
-  }
-  if (!(type in registrations)) {
-    registrations[type] = new WeakMap();
-  }
-  const replacementHandler = function (event) {
-    let stopEvent = false;
-    for (const hook of hooks) {
-      if (hook._onEvent(event) === true) {
-        stopEvent = true;
-      }
-    }
-    if (!stopEvent) {
-      return fn.apply(this, args);
-    }
-    return undefined;
-  };
-  const returnValue = oldAEL.call(this, args[0], replacementHandler, options);
-  if (!registrations[type].has(fn)) {
-    registrations[type].set(fn, replacementHandler);
-  }
-  return returnValue;
-};
-
-EventTarget.prototype.removeEventListener = function (...args) {
-  const type = args[0];
-  const fn = args[1];
-  const options = args[2];
-  if (fn && registrations[type] && registrations[type].has(fn)) {
-    const replacementHandler = registrations[type].get(fn);
-    oldREL.call(this, args[0], replacementHandler, options);
-    registrations[type].delete(fn);
-  } else {
-    oldREL.apply(this, args);
-  }
-};
-
-class EventListenerHook {
-  constructor() {
-    hooks.push(this);
-  }
-
+class Rule {
   setOptions(opts) {
     if ('enabled' in opts) {
       this.enabled = Boolean(opts.enabled);
     }
-    this.types = opts.types;
-    this.selector = opts.selector;
+    if ('types' in opts) {
+      this.types = opts.types;
+    }
+    if ('selector' in opts) {
+      this.selector = opts.selector;
+    }
     this.onEvent = function (event) {
       const data = {
         topic: 'dom-events',
@@ -68,15 +21,84 @@ class EventListenerHook {
     };
   }
 
-  _onEvent(event) {
-    if (this.enabled &&
-        (!this.types || this.types.includes(event.type)) &&
-        (!this.selector ||
-          (this.selector === 'document' && event.target instanceof Document) ||
-          (this.selector === 'window' && event.target instanceof Window) ||
-          (event.target.matches && event.target.matches(this.selector)))) {
-      this.onEvent(event);
+  _matches(type, elem) {
+    return (!this.types || this.types.includes(type)) &&
+           (!this.selector ||
+              (this.selector === 'document' && elem instanceof Document) ||
+              (this.selector === 'window' && elem instanceof Window) ||
+              (elem.matches && elem.matches(this.selector)));
+  }
+
+  _onEvent(event, handler) {
+    if (this.enabled && this._matches(event.type, event.target)) {
+      return this.onEvent(event, handler);
     }
+    return undefined;
+  }
+}
+
+class EventListenerHook {
+  constructor(name) {
+    this.name = name;
+
+    this.targetInstance = this;
+    this.rules = [new Rule()];
+
+    this.handlerProxies = new WeakMap();
+
+    this.oldAEL = EventTarget.prototype.addEventListener;
+    this.oldREL = EventTarget.prototype.removeEventListener;
+
+    const me = this;
+    EventTarget.prototype.addEventListener = function (type, handler, opts) {
+      return me.onAddListener(this, type, handler, opts);
+    };
+    EventTarget.prototype.removeEventListener = function (type, handler, opts) {
+      return me.onRemoveListener(this, type, handler, opts);
+    };
+  }
+
+  onAddListener(elem, type, handler, options) {
+    if (!handler) { // No handler, so this call will fizzle anyway
+      return undefined;
+    }
+    const me = this;
+    const proxy = this.handlerProxies.get(handler) || function (event) {
+      return me.targetInstance.onEvent(this, event, handler);
+    };
+    const returnValue = this.oldAEL.call(elem, type, proxy, options);
+    this.handlerProxies.set(handler, proxy);
+    return returnValue;
+  }
+
+  onRemoveListener(elem, type, handler, options) {
+    if (handler && this.handlerProxies.has(handler)) {
+      const proxy = this.handlerProxies.get(handler);
+      this.oldREL.call(elem, type, proxy, options);
+    } else {
+      this.oldREL.call(elem, type, handler, options);
+    }
+  }
+
+  onEvent(thisObj, event, originalHandler) {
+    let stopEvent = false;
+    for (const rule of this.rules) {
+      if (rule._onEvent(event, originalHandler) === false) {
+        stopEvent = true;
+      }
+    }
+    if (!stopEvent) {
+      if (originalHandler.handleEvent) {
+        return originalHandler.handleEvent.call(thisObj, event);
+      }
+      return originalHandler.call(thisObj, event);
+    }
+    return undefined;
+  }
+
+  setOptions(opts) {
+    this.rules[0].setOptions(opts);
+    this.enabled = this.rules[0].enabled;
   }
 }
 
