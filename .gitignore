@@ -1,3 +1,6 @@
+bundle.js
+dist/front-end-tracker.js
+
 # Logs
 logs
 *.log
