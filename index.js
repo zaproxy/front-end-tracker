@@ -1,6 +1,8 @@
 'use strict';
 
-global.mailbox = require('pubsub-js');
+const mailbox = require('pubsub-js');
+
+global.mailbox = mailbox;
 
 const {EVENTS} = require('./events.js');
 const {EventListenerHook} = require('./hooks/event-listener-hook.js');
@@ -25,7 +27,7 @@ function publishToMailbox(err, data) {
     const {topic} = data;
     data.timestamp = time;
 
-    global.mailbox.publish(topic, data);
+    mailbox.publish(topic, data);
   }
 }
 
