@@ -2,6 +2,12 @@
 
 const mailbox = require('pubsub-js');
 
+/**
+ * Exposed to the `global` scope (in a browser, it would be the `window` or an `iframe`).
+ * <br/>
+ * See <a href="https://github.com/mroderick/PubSubJS">github.com/mroderick/PubSubJS</a> for description, list of properties, and functions signatures.
+ * @global
+ */
 global.mailbox = mailbox;
 
 const {EVENTS} = require('./events.js');
@@ -19,6 +25,15 @@ const storageOptions = {
   callback: publishToMailbox
 };
 
+/**
+ * Callback to be called when something that we hooked into is triggered.
+ * <br/>
+ * Follow the convention: "expose an error-first callback interface".
+ * @function
+ * @param {Object} err
+ * @param {Object} data
+ * @param {('dom-events'|'storage')} data.topic - Which hook the data is from.
+ */
 function publishToMailbox(err, data) {
   if (err) {
     console.log(err);

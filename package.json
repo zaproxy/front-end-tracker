@@ -7,6 +7,7 @@
   "directories": {},
   "scripts": {
     "build": "browserify src/index.js src/hooks/*.js | uglifyjs --compress --mangle -o dist/front-end-tracker.js",
+    "doc": "jsdoc -r -d docs/ src/ docs/README.md",
     "lint": "xo",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify src/index.js src/hooks/*.js -o bundle.js"
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/zaproxy/front-end-tracker#readme",
   "devDependencies": {
     "browserify": "^16.2.2",
+    "jsdoc": "^3.5.5",
     "uglify-es": "^3.3.9",
     "watchify": "^3.11.0",
     "xo": "^0.21.1"

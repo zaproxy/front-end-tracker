@@ -1,3 +1,9 @@
+/**
+ * Hook for DOM events.
+ * Wrap DOM events' callbacks to execute a given function before running the expected behaviour.
+ * @module event-listener-hook
+ */
+
 'use strict';
 
 class Rule {
@@ -37,6 +43,7 @@ class Rule {
   }
 }
 
+/** @class */
 class EventListenerHook {
   constructor(name) {
     this.name = name;
@@ -96,6 +103,13 @@ class EventListenerHook {
     return undefined;
   }
 
+  /**
+   * Set options for the EventListener hook.
+   * @param {Object} opts
+   * @param {boolean} opts.enabled - Tell wether or not the hook should be enabled.
+   * @param {Array<string>} opts.types - The list of DOM events for which the behavior should be wrapped.
+   * @param {function} opts.callback - The function to call before triggering the expected behavior.
+   */
   setOptions(opts) {
     this.rules[0].setOptions(opts);
     this.enabled = this.rules[0].enabled;

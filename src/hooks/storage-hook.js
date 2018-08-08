@@ -1,3 +1,9 @@
+/**
+ * Hook for Storage interactions.
+ * Wrap Storage events' callbacks to execute a given function before running the expected behaviour.
+ * @module storage-hook
+ */
+
 'use strict';
 
 const hooks = [];
@@ -46,11 +52,18 @@ Storage.prototype.setItem = function (...args) {
   return returnValue;
 };
 
+/** @class StorageHook */
 class StorageHook {
   constructor() {
     hooks.push(this);
   }
 
+  /**
+   * Set options for the Storage hook.
+   * @param {Object} opts
+   * @param {boolean} opts.enabled - Tell wether or not the hook should be enabled.
+   * @param {function} opts.callback - The function to call before triggering the expected behavior.
+   */
   setOptions(opts) {
     if ('enabled' in opts) {
       this.enabled = Boolean(opts.enabled);
