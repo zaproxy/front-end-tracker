@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "Tracking events that can happen in a webpage.",
   "author": "Xavier Maso <xav.maso@gmail.com> (https://github.com/pamplemousse)",
-  "main": "index.js",
+  "main": "src/index.js",
   "directories": {},
   "scripts": {
-    "build": "browserify index.js hooks/*.js | uglifyjs --compress --mangle -o dist/front-end-tracker.js",
+    "build": "browserify src/index.js src/hooks/*.js | uglifyjs --compress --mangle -o dist/front-end-tracker.js",
     "lint": "xo",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify index.js hooks/*.js -o bundle.js"
+    "watch": "watchify src/index.js src/hooks/*.js -o bundle.js"
   },
   "repository": {
     "type": "git",

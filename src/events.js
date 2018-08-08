@@ -1,9 +1,3 @@
-/*
- * A list of DOM events can be found on MDN:
- *   https://developer.mozilla.org/en-US/docs/Web/Events
- * Note that the more events are tracked, the slower the scanner will be.
- */
-
 'use strict';
 
 const FORM_EVENTS = ['reset', 'submit'];
