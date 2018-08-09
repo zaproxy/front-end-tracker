@@ -1,15 +1,16 @@
 {
   "name": "@zaproxy/front-end-tracker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tracking events that can happen in a webpage.",
   "author": "Xavier Maso <xav.maso@gmail.com> (https://github.com/pamplemousse)",
-  "main": "index.js",
+  "main": "src/index.js",
   "directories": {},
   "scripts": {
-    "build": "browserify index.js hooks/*.js | uglifyjs --compress --mangle -o dist/front-end-tracker.js",
+    "build": "browserify src/index.js src/hooks/*.js | uglifyjs --compress --mangle -o dist/front-end-tracker.js",
+    "doc": "jsdoc -r -d docs/ src/ docs/README.md",
     "lint": "xo",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify index.js hooks/*.js -o bundle.js"
+    "watch": "watchify src/index.js src/hooks/*.js -o bundle.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/zaproxy/front-end-tracker#readme",
   "devDependencies": {
     "browserify": "^16.2.2",
+    "jsdoc": "^3.5.5",
     "uglify-es": "^3.3.9",
     "watchify": "^3.11.0",
     "xo": "^0.21.1"
