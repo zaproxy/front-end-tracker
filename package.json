@@ -1,6 +1,6 @@
 {
   "name": "@zaproxy/front-end-tracker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tracking events that can happen in a webpage.",
   "author": "Xavier Maso <xav.maso@gmail.com> (https://github.com/pamplemousse)",
   "main": "src/index.js",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/zaproxy/front-end-tracker#readme",
   "devDependencies": {
-    "browserify": "^16.2.2",
+    "browserify": "^16.2.3",
     "jsdoc": "^3.5.5",
     "uglify-es": "^3.3.9",
     "watchify": "^3.11.0",
@@ -37,7 +37,8 @@
       "Document",
       "EventTarget",
       "Storage",
-      "Window"
+      "Window",
+      "window"
     ]
   }
 }

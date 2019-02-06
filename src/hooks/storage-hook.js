@@ -11,6 +11,20 @@ const oldGetItem = Storage.prototype.getItem;
 const oldRemoveItem = Storage.prototype.removeItem;
 const oldSetItem = Storage.prototype.setItem;
 
+function getStorageType(storage) {
+  let type;
+
+  if (storage === window.sessionStorage) {
+    type = 'sessionStorage';
+  } else if (storage === window.localStorage) {
+    type = 'localStorage';
+  } else {
+    type = 'unknown';
+  }
+
+  return type;
+}
+
 Storage.prototype.getItem = function (...args) {
   const keyName = args[0];
   const keyValue = oldGetItem.call(this, keyName);
@@ -18,7 +32,8 @@ Storage.prototype.getItem = function (...args) {
     hook.onStorage({
       key: keyName,
       action: 'get',
-      value: keyValue
+      value: keyValue,
+      type: getStorageType(this)
     });
   }
   return keyValue;
@@ -32,7 +47,8 @@ Storage.prototype.removeItem = function (...args) {
     hook.onStorage({
       key: keyName,
       action: 'remove',
-      value: keyValue
+      value: keyValue,
+      type: getStorageType(this)
     });
   }
   return returnValue;
@@ -46,7 +62,8 @@ Storage.prototype.setItem = function (...args) {
     hook.onStorage({
       key: keyName,
       action: 'set',
-      value: keyValue
+      value: keyValue,
+      type: getStorageType(this)
     });
   }
   return returnValue;
