@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/zaproxy/front-end-tracker#readme",
   "devDependencies": {
-    "browserify": "^16.2.2",
+    "browserify": "^16.2.3",
     "jsdoc": "^3.5.5",
     "uglify-es": "^3.3.9",
     "watchify": "^3.11.0",
