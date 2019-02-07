@@ -26,7 +26,7 @@
     "jsdoc": "^3.5.5",
     "uglify-es": "^3.3.9",
     "watchify": "^3.11.0",
-    "xo": "^0.21.1"
+    "xo": "^0.24.0"
   },
   "dependencies": {
     "pubsub-js": "^1.6.0"
