@@ -28,6 +28,7 @@ function getStorageType(storage) {
 Storage.prototype.getItem = function (...args) {
   const keyName = args[0];
   const keyValue = oldGetItem.call(this, keyName);
+
   for (const hook of hooks) {
     hook.onStorage({
       key: keyName,
@@ -36,6 +37,7 @@ Storage.prototype.getItem = function (...args) {
       type: getStorageType(this)
     });
   }
+
   return keyValue;
 };
 
@@ -43,6 +45,7 @@ Storage.prototype.removeItem = function (...args) {
   const keyName = args[0];
   const keyValue = oldGetItem.call(this, keyName);
   const returnValue = oldRemoveItem.call(this, keyName);
+
   for (const hook of hooks) {
     hook.onStorage({
       key: keyName,
@@ -51,6 +54,7 @@ Storage.prototype.removeItem = function (...args) {
       type: getStorageType(this)
     });
   }
+
   return returnValue;
 };
 
@@ -58,6 +62,7 @@ Storage.prototype.setItem = function (...args) {
   const keyName = args[0];
   const keyValue = args[1];
   const returnValue = oldSetItem.call(this, keyName, keyValue);
+
   for (const hook of hooks) {
     hook.onStorage({
       key: keyName,
@@ -66,6 +71,7 @@ Storage.prototype.setItem = function (...args) {
       type: getStorageType(this)
     });
   }
+
   return returnValue;
 };
 
@@ -85,6 +91,7 @@ class StorageHook {
     if ('enabled' in opts) {
       this.enabled = Boolean(opts.enabled);
     }
+
     this.onStorage = function (obj) {
       const data = {...obj, topic: 'storage'};
       opts.callback(null, data);

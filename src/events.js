@@ -16,11 +16,24 @@ const FORM_EVENTS = ['reset', 'submit'];
 const CLIPBOARD_EVENTS = ['cut', 'copy', 'paste'];
 const KEYBOARD_EVENTS = ['keydown', 'keypress', 'keyup'];
 const MOUSE_EVENTS = [
-  'mousedown', 'mouseup', 'click', 'dblclick', 'contextmenu', 'wheel', 'select',
-  'pointerlockchange', 'pointerlockerror'
+  'mousedown',
+  'mouseup',
+  'click',
+  'dblclick',
+  'contextmenu',
+  'wheel',
+  'select',
+  'pointerlockchange',
+  'pointerlockerror'
 ];
 const DRAG_AND_DROP_EVENTS = [
-  'dragstart', 'drag', 'dragend', 'dragenter', 'dragover', 'dragleave', 'drop'
+  'dragstart',
+  'drag',
+  'dragend',
+  'dragenter',
+  'dragover',
+  'dragleave',
+  'drop'
 ];
 
 /**

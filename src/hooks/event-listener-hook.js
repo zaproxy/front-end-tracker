@@ -11,12 +11,15 @@ class Rule {
     if ('enabled' in opts) {
       this.enabled = Boolean(opts.enabled);
     }
+
     if ('types' in opts) {
       this.types = opts.types;
     }
+
     if ('selector' in opts) {
       this.selector = opts.selector;
     }
+
     this.onEvent = function (event) {
       const data = {
         topic: 'dom-events',
@@ -39,6 +42,7 @@ class Rule {
     if (this.enabled && this._matches(event.type, event.target)) {
       return this.onEvent(event, handler);
     }
+
     return undefined;
   }
 }
@@ -57,9 +61,11 @@ class EventListenerHook {
     this.oldREL = EventTarget.prototype.removeEventListener;
 
     const me = this;
+
     EventTarget.prototype.addEventListener = function (type, handler, opts) {
       return me.onAddListener(this, type, handler, opts);
     };
+
     EventTarget.prototype.removeEventListener = function (type, handler, opts) {
       return me.onRemoveListener(this, type, handler, opts);
     };
@@ -69,12 +75,15 @@ class EventListenerHook {
     if (!handler) { // No handler, so this call will fizzle anyway
       return undefined;
     }
+
     const me = this;
     const proxy = this.handlerProxies.get(handler) || function (event) {
       return me.targetInstance.onEvent(this, event, handler);
     };
+
     const returnValue = this.oldAEL.call(elem, type, proxy, options);
     this.handlerProxies.set(handler, proxy);
+
     return returnValue;
   }
 
@@ -89,17 +98,21 @@ class EventListenerHook {
 
   onEvent(thisObj, event, originalHandler) {
     let stopEvent = false;
+
     for (const rule of this.rules) {
       if (rule._onEvent(event, originalHandler) === false) {
         stopEvent = true;
       }
     }
+
     if (!stopEvent) {
       if (originalHandler.handleEvent) {
         return originalHandler.handleEvent.call(thisObj, event);
       }
+
       return originalHandler.call(thisObj, event);
     }
+
     return undefined;
   }
 
