@@ -83,18 +83,18 @@ class StorageHook {
 
   /**
    * Set options for the Storage hook.
-   * @param {Object} opts
-   * @param {boolean} opts.enabled - Tell wether or not the hook should be enabled.
-   * @param {function} opts.callback - The function to call before triggering the expected behavior.
+   * @param {Object} options
+   * @param {boolean} options.enabled - Tell wether or not the hook should be enabled.
+   * @param {function} options.callback - The function to call before triggering the expected behavior.
    */
-  setOptions(opts) {
-    if ('enabled' in opts) {
-      this.enabled = Boolean(opts.enabled);
+  setOptions(options) {
+    if ('enabled' in options) {
+      this.enabled = Boolean(options.enabled);
     }
 
-    this.onStorage = function (obj) {
-      const data = {...obj, topic: 'storage'};
-      opts.callback(null, data);
+    this.onStorage = function (object) {
+      const data = {...object, topic: 'storage'};
+      options.callback(null, data);
     };
   }
 }
