@@ -7,17 +7,17 @@
 'use strict';
 
 class Rule {
-  setOptions(opts) {
-    if ('enabled' in opts) {
-      this.enabled = Boolean(opts.enabled);
+  setOptions(options) {
+    if ('enabled' in options) {
+      this.enabled = Boolean(options.enabled);
     }
 
-    if ('types' in opts) {
-      this.types = opts.types;
+    if ('types' in options) {
+      this.types = options.types;
     }
 
-    if ('selector' in opts) {
-      this.selector = opts.selector;
+    if ('selector' in options) {
+      this.selector = options.selector;
     }
 
     this.onEvent = function (event) {
@@ -26,16 +26,16 @@ class Rule {
         element: event.target.nodeName,
         event: event.type
       };
-      opts.callback(null, data);
+      options.callback(null, data);
     };
   }
 
-  _matches(type, elem) {
+  _matches(type, element) {
     return (!this.types || this.types.includes(type)) &&
            (!this.selector ||
-              (this.selector === 'document' && elem instanceof Document) ||
-              (this.selector === 'window' && elem instanceof Window) ||
-              (elem.matches && elem.matches(this.selector)));
+              (this.selector === 'document' && element instanceof Document) ||
+              (this.selector === 'window' && element instanceof Window) ||
+              (element.matches && element.matches(this.selector)));
   }
 
   _onEvent(event, handler) {
@@ -62,16 +62,16 @@ class EventListenerHook {
 
     const me = this;
 
-    EventTarget.prototype.addEventListener = function (type, handler, opts) {
-      return me.onAddListener(this, type, handler, opts);
+    EventTarget.prototype.addEventListener = function (type, handler, options) {
+      return me.onAddListener(this, type, handler, options);
     };
 
-    EventTarget.prototype.removeEventListener = function (type, handler, opts) {
-      return me.onRemoveListener(this, type, handler, opts);
+    EventTarget.prototype.removeEventListener = function (type, handler, options) {
+      return me.onRemoveListener(this, type, handler, options);
     };
   }
 
-  onAddListener(elem, type, handler, options) {
+  onAddListener(element, type, handler, options) {
     if (!handler) { // No handler, so this call will fizzle anyway
       return undefined;
     }
@@ -81,22 +81,22 @@ class EventListenerHook {
       return me.targetInstance.onEvent(this, event, handler);
     };
 
-    const returnValue = this.oldAEL.call(elem, type, proxy, options);
+    const returnValue = this.oldAEL.call(element, type, proxy, options);
     this.handlerProxies.set(handler, proxy);
 
     return returnValue;
   }
 
-  onRemoveListener(elem, type, handler, options) {
+  onRemoveListener(element, type, handler, options) {
     if (handler && this.handlerProxies.has(handler)) {
       const proxy = this.handlerProxies.get(handler);
-      this.oldREL.call(elem, type, proxy, options);
+      this.oldREL.call(element, type, proxy, options);
     } else {
-      this.oldREL.call(elem, type, handler, options);
+      this.oldREL.call(element, type, handler, options);
     }
   }
 
-  onEvent(thisObj, event, originalHandler) {
+  onEvent(thisObject, event, originalHandler) {
     let stopEvent = false;
 
     for (const rule of this.rules) {
@@ -107,10 +107,10 @@ class EventListenerHook {
 
     if (!stopEvent) {
       if (originalHandler.handleEvent) {
-        return originalHandler.handleEvent.call(thisObj, event);
+        return originalHandler.handleEvent.call(thisObject, event);
       }
 
-      return originalHandler.call(thisObj, event);
+      return originalHandler.call(thisObject, event);
     }
 
     return undefined;
@@ -118,13 +118,13 @@ class EventListenerHook {
 
   /**
    * Set options for the EventListener hook.
-   * @param {Object} opts
-   * @param {boolean} opts.enabled - Tell wether or not the hook should be enabled.
-   * @param {Array<string>} opts.types - The list of DOM events for which the behavior should be wrapped.
-   * @param {function} opts.callback - The function to call before triggering the expected behavior.
+   * @param {Object} options
+   * @param {boolean} options.enabled - Tell wether or not the hook should be enabled.
+   * @param {Array<string>} options.types - The list of DOM events for which the behavior should be wrapped.
+   * @param {function} options.callback - The function to call before triggering the expected behavior.
    */
-  setOptions(opts) {
-    this.rules[0].setOptions(opts);
+  setOptions(options) {
+    this.rules[0].setOptions(options);
     this.enabled = this.rules[0].enabled;
   }
 }
