@@ -1,6 +1,6 @@
 {
   "name": "@zaproxy/front-end-tracker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Tracking events that can happen in a webpage.",
   "author": "Xavier Maso <xav.maso@gmail.com> (https://github.com/pamplemousse)",
   "main": "src/index.js",
