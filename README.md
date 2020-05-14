@@ -34,7 +34,19 @@ mailbox.subscribe(topic, (_, data) => {
 
 #### Import in your application
 
-##### If you use a Javascript bundler
+##### Use a CDN
+
+The latest bundled version of this module is available at [unpkg.com/browse/@zaproxy/front-end-tracker](https://unpkg.com/browse/@zaproxy/front-end-tracker@latest/dist/front-end-tracker.js).
+
+Insert the following snippet, preferably first in the `<head>` tag (to ensure it is run before anything else), to have it available in your webpage.
+
+```
+<script src="https://unpkg.com/@zaproxy/front-end-tracker@latest/dist/front-end-tracker.js"
+    crossorigin="anonymous"></script>
+```
+
+
+##### If you use a JavaScript bundler
 
 Such as [webpack](https://webpack.github.io/), [rollup](https://rollupjs.org/guide/en), [browserify](http://browserify.org/), ...
 All you need to do is to require this package in your application.
@@ -44,16 +56,11 @@ require('@zaproxy/front-end-tracker');
 ```
 
 
-##### If you do not
-
-There is a [pending feature request](https://github.com/zaproxy/front-end-tracker/issues/5) to make a bundled version of this package available from a CDN.
-
-
 #### Import in any HTML page
 
 You can use [ZAP](https://github.com/zaproxy/zaproxy/#-owasp-zap) to inject a bundle of this package in HTTP responses.
 
-[inject.js](https://github.com/zaproxy/community-scripts/blob/master/httpsender/inject_js_in_html_page.js) is an HTTP Sender script (see more [here](https://github.com/zaproxy/community-scripts/tree/master/httpsender)) to inject any kind of Javascript content into webpages that interest us.
+[inject.js](https://github.com/zaproxy/community-scripts/blob/master/httpsender/inject_js_in_html_page.js) is an HTTP Sender script (see more [here](https://github.com/zaproxy/community-scripts/tree/master/httpsender)) to inject any kind of JavaScript content into webpages that interest us.
 
   * Install the `Script Console` from the add-on marketplace.
   * Install the `Community Scripts` from the add-on marketplace.
