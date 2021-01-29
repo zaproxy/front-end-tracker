@@ -30,15 +30,15 @@ const storageOptions = {
  * <br/>
  * Follow the convention: "expose an error-first callback interface".
  * @function
- * @param {Object} err
+ * @param {Object} error
  * @param {Object} data
  * @param {('dom-events'|'storage')} data.topic - Which hook the data is from.
  */
-function publishToMailbox(err, data) {
-  if (err) {
-    console.log(err);
+function publishToMailbox(error, data) {
+  if (error) {
+    console.log(error);
   } else {
-    const time = new Date().getTime();
+    const time = Date.now();
     const {topic} = data;
     data.timestamp = time;
 
