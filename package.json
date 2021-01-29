@@ -28,7 +28,7 @@
     "browserify": "^17.0.0",
     "jsdoc": "^3.6.4",
     "uglify-es": "^3.3.9",
-    "watchify": "^3.11.0",
+    "watchify": "^4.0.0",
     "xo": "^0.36.1"
   },
   "dependencies": {
